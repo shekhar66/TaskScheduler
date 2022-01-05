@@ -1,0 +1,35 @@
+body {
+  background-color: #3f3f3f;
+  margin: 25px;
+  font-family: "Noto Sans JP";
+}
+.invalid {
+  border-color: red;
+  color: red;
+}
+.spinner-border {
+  width: 15em;
+  height: 15em;
+  position: fixed;
+  left: 41%;
+  z-index: 99;
+  border-width: 19px;
+  top: 25%;
+  border-color: wheat;
+  border-right-color: transparent;
+}
+.backdrop-lay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 6;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+select {
+  cursor: pointer;
+}
+.task-new-form {
+  border: none !important;
+}
