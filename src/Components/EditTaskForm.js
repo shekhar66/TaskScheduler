@@ -1,63 +1,66 @@
-import React, { useState /* useContext */ } from "react";
+import React, { useState } from "react";
 import { Button, Offcanvas } from "react-bootstrap";
-import TaskForm from "./TaskForm";
-import ReactDOM from "react-dom";
-import { LoadingSpinner } from "../App";
-// import TaskContext from "../Context/task-context";
+import NewTask from "./NewTask";
+import { useSelector, useDispatch } from "react-redux";
 
 const EditTaskForm = (props) => {
-  // const taskCtx = useContext(TaskContext);
+  const editTask = useSelector((prevTasks) =>
+    prevTasks.tasks.find((task) => {
+      return task.id === props.taskid;
+    })
+  );
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [taskDetails, setTaskDetals] = useState({});
 
   const handleShow = () => {
-    console.log(props);
     const request = async () => {
       if (props.taskid) {
-        setIsLoading(true);
-        const response = await fetch(
-          `https://shekhar-test-dcbe5-default-rtdb.firebaseio.com/tasks/${props.taskid}.json`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        const data = await response.json();
-        setTaskDetals(data);
-        setIsLoading(false);
+        setTaskDetals(editTask);
         setShow(true);
       }
     };
     request();
   };
 
-  const addTaskHandler = async (data) => {
+  const editTaskHandler = async (data) => {
     setShow(false);
-    props.onUpdateTask({ ...data, id: props.taskid });
-    setIsLoading(false);
+    dispatch({ type: "loading", loading: true });
+    const response = await fetch(
+      `https://shekhar-test-dcbe5-default-rtdb.firebaseio.com/tasks/${props.taskid}.json`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ ...data, id: props.taskid }),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    if (response.ok) {
+      dispatch({ type: "edit", task: { ...data, id: props.taskid } });
+      dispatch({ type: "loading", loading: false });
+      dispatch({
+        type: "notification",
+        notification: {
+          message: "Task has been updated sucessfully..!!!",
+          color: "orange",
+        },
+      });
+    }
   };
 
   return (
     <React.Fragment>
-      {isLoading &&
-        ReactDOM.createPortal(
-          <LoadingSpinner />,
-          document.getElementById("loading_spinner")
-        )}
-      {isLoading &&
-        ReactDOM.createPortal(
-          <div className="backdrop-lay"></div>,
-          document.getElementById("backdrop")
-        )}
       <Button onClick={handleShow}>Edit</Button>{" "}
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Edit Task</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <TaskForm onAddTask={addTaskHandler} taskDetails={taskDetails} />
+          <NewTask
+            addTask={editTaskHandler}
+            taskDetails={taskDetails}
+            isEditForm={true}
+          />
         </Offcanvas.Body>
       </Offcanvas>
     </React.Fragment>

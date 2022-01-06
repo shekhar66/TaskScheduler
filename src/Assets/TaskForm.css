@@ -1,0 +1,37 @@
+th {
+  width: 22%;
+}
+.accordion-item {
+  border-color: black;
+}
+.accordion-button {
+  padding: 10px 20px;
+}
+.accordion-item:not(:first-of-type),
+.accordion-item:first-of-type {
+  border: 1px solid black;
+  margin-top: 11px;
+  border-radius: 0.15rem;
+}
+.accordion-button:focus,
+.form-control:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+.form-control:focus {
+  border-color: #ced4da;
+}
+.add-task-card.card-body {
+  padding: 0px;
+}
+.add-task-header > .accordion-button {
+  padding: 0px;
+  padding-left: 19px;
+  padding-top: 3px;
+  padding-right: 37px;
+}
+.add-task-card.card {
+  width: 50%;
+  position: relative;
+  left: 25%;
+}
