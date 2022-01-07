@@ -35,3 +35,6 @@ th {
   position: relative;
   left: 25%;
 }
+.add-task-new-accordion {
+  border: none !important;
+}

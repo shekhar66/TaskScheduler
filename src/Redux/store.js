@@ -1,12 +1,18 @@
 import { createStore } from "redux";
 
-const initialState = { tasks: [], isLoading: false, notification: {} };
+const initialState = {
+  tasks: [],
+  isLoading: false,
+  notification: {},
+  filteredTasks: { tasks: [], value: "" },
+};
 const taskManager = (taskState = initialState, action) => {
   if (action.type === "fetch") {
     return {
       tasks: action.tasks,
       isLoading: taskState.isLoading,
       notification: taskState.notification,
+      filteredTasks: taskState.filteredTasks,
     };
   }
   if (action.type === "add") {
@@ -14,6 +20,7 @@ const taskManager = (taskState = initialState, action) => {
       tasks: [...taskState.tasks, action.task],
       isLoading: taskState.isLoading,
       notification: taskState.notification,
+      filteredTasks: taskState.filteredTasks,
     };
   }
   if (action.type === "edit") {
@@ -29,6 +36,7 @@ const taskManager = (taskState = initialState, action) => {
       tasks: updatedTasks,
       isLoading: taskState.isLoading,
       notification: taskState.notification,
+      filteredTasks: taskState.filteredTasks,
     };
   }
   if (action.type === "delete") {
@@ -40,6 +48,7 @@ const taskManager = (taskState = initialState, action) => {
       ],
       isLoading: taskState.isLoading,
       notification: taskState.notification,
+      filteredTasks: taskState.filteredTasks,
     };
   }
 
@@ -48,13 +57,34 @@ const taskManager = (taskState = initialState, action) => {
       tasks: taskState.tasks,
       isLoading: action.loading,
       notification: taskState.notification,
+      filteredTasks: taskState.filteredTasks,
     };
   }
   if (action.type === "notification") {
     return {
       tasks: taskState.tasks,
-      isLoading: action.loading,
+      isLoading: taskState.isLoading,
       notification: action.notification,
+      filteredTasks: taskState.filteredTasks,
+    };
+  }
+  if (action.type === "filter") {
+    let updatedTasks = taskState.tasks;
+    if (action.filterpayload.filtervalue) {
+      updatedTasks = updatedTasks.filter((task) => {
+        return task.title
+          .toLowerCase()
+          .includes(action.filterpayload.filtervalue.toLowerCase());
+      });
+    }
+    return {
+      tasks: taskState.tasks,
+      isLoading: taskState.loading,
+      notification: taskState.notification,
+      filteredTasks: {
+        tasks: updatedTasks,
+        value: action.filterpayload.filtervalue,
+      },
     };
   }
   return taskState;

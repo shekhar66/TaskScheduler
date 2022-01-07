@@ -29,6 +29,8 @@ const TaskForm = (props) => {
           type: "notification",
           notification: { message: "Task has been added sucessfully..!!!" },
         });
+        // Close the Add New Form once Added
+        document.querySelector(".add-task-header>button").click();
       }
     } catch (err) {}
   };

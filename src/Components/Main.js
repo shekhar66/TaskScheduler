@@ -40,11 +40,14 @@ const Main = (props) => {
   const tasks = useSelector((prevTasks) => {
     return prevTasks.tasks;
   });
+  const filteredTasks = useSelector((prevTasks) => {
+    return prevTasks.filteredTasks;
+  });
   return (
     <React.Fragment>
       {isLoading && <LoadingSpinner />}
       <TaskForm />
-      <TotalTasks tasks={tasks} />
+      <TotalTasks tasks={filteredTasks.value ? filteredTasks.tasks : tasks} />
     </React.Fragment>
   );
 };

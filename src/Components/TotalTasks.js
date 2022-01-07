@@ -3,6 +3,7 @@ import EditTaskForm from "./EditTaskForm";
 import Header from "./Header";
 import "../Assets/TotalTasks.css";
 import { useDispatch, useSelector } from "react-redux";
+import TaskFilter from "./TaskFilter";
 
 const TotalTasks = (props) => {
   const dispatch = useDispatch();
@@ -89,6 +90,7 @@ const TotalTasks = (props) => {
       <Card.Body>
         <Header name="Total Tasks" />
         <hr className="hr-tasks"></hr>
+        <TaskFilter />
         {content}
       </Card.Body>
     </Card>
