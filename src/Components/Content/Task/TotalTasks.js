@@ -1,7 +1,7 @@
 import { Accordion, Table, Button, Card } from "react-bootstrap";
 import EditTaskForm from "./EditTaskForm";
 import Header from "./Header";
-import "../Assets/TotalTasks.css";
+import "../../../Assets/TotalTasks.css";
 import { useDispatch, useSelector } from "react-redux";
 import TaskFilter from "./TaskFilter";
 

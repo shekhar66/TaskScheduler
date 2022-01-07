@@ -1,6 +1,5 @@
 body {
-  background-color: #3f3f3f;
-  margin: 25px;
+  background-color: #f8f8f8;
   font-family: "Noto Sans JP";
 }
 .invalid {
@@ -44,4 +43,14 @@ select {
   border-color: transparent;
   color: white;
   font-weight: 800;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+.card {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+}
+.top-header {
+  margin-bottom: 2%;
 }

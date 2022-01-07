@@ -1,8 +1,8 @@
 import { useReducer } from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
-import "../Assets/overwrite.css";
-import TaskReducer from "../Reducer/TaskReducer";
-import "../Assets/TaskForm.css";
+import { Container, Row, Col } from "react-bootstrap";
+import "../../../Assets/overwrite.css";
+import TaskReducer from "../../../Reducer/TaskReducer";
+import "../../../Assets/TaskForm.css";
 
 const NewTask = (props) => {
   const initialState = {
@@ -190,9 +190,13 @@ const NewTask = (props) => {
         </Row>
       </Container>
       <div style={{ marginTop: "10px" }}>
-        <Button style={{ float: "right", marginBottom: "8px" }} type="submit">
-          Add
-        </Button>
+        <button
+          className="form-control btn-primary"
+          style={{ float: "right", marginBottom: "8px" }}
+          type="submit"
+        >
+          {props.taskDetails ? "Update" : "Add"}
+        </button>
       </div>
     </form>
   );

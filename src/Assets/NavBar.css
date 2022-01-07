@@ -1,0 +1,10 @@
+.navbar {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
+.top-header {
+  box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+}
+.nav-top-bar-buttons {
+  margin-right: 0px !important;
+}

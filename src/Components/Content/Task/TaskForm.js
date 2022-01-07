@@ -1,11 +1,15 @@
-import { Accordion, Card } from "react-bootstrap";
-import Header from "./Header";
+import { Offcanvas } from "react-bootstrap";
 import NewTask from "./NewTask";
 import { useDispatch, useSelector } from "react-redux";
-import "../Assets/TaskForm.css";
+import "../../../Assets/TaskForm.css";
+import React, { useState } from "react";
+import { TopHeader } from "../../NavBar/NavBar";
 import Notification from "./Notification";
 
 const TaskForm = (props) => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const notification = useSelector((prevState) => {
     return prevState.notification;
   });
@@ -29,25 +33,27 @@ const TaskForm = (props) => {
           type: "notification",
           notification: { message: "Task has been added sucessfully..!!!" },
         });
-        // Close the Add New Form once Added
-        document.querySelector(".add-task-header>button").click();
+        setShow(false);
       }
     } catch (err) {}
   };
   return (
-    <Card className="add-task-card">
-      <Notification color={notification.color} message={notification.message} />
-      <Card.Body className="add-task-card">
-        <Accordion>
-          <Accordion.Header className="add-task-header">
-            <Header name="Add Task" />
-          </Accordion.Header>
-          <Accordion.Body>
+    <React.Fragment>
+      <TopHeader>
+        <button class="form-control" onClick={handleShow}>
+          +Add New Task
+        </button>
+        <Offcanvas show={show} onHide={handleClose} placement="end">
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>New Task</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
             <NewTask addTask={onAddTaskHandler} />
-          </Accordion.Body>
-        </Accordion>
-      </Card.Body>
-    </Card>
+          </Offcanvas.Body>
+        </Offcanvas>
+      </TopHeader>
+      <Notification color={notification.color} message={notification.message} />
+    </React.Fragment>
   );
 };
 
