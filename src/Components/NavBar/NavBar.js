@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Nav, Navbar, Container } from "react-bootstrap";
 import "../../Assets/NavBar.css";
+import { useDispatch } from "react-redux";
 
 export const TopHeader = (props) => {
   return (
@@ -13,7 +14,14 @@ export const TopHeader = (props) => {
     </Navbar>
   );
 };
+
 const NavBar = (props) => {
+  const dispatch = useDispatch();
+  const logoutHandler = (event) => {
+    localStorage.removeItem("loggedIn");
+    dispatch({ type: "login", value: false });
+  };
+  const isLoggedIn = localStorage.getItem("loggedIn");
   return (
     <React.Fragment>
       {ReactDOM.createPortal(
@@ -21,7 +29,16 @@ const NavBar = (props) => {
           <Navbar bg="primary" variant="dark">
             <Container>
               <Navbar.Brand>{props.header}</Navbar.Brand>
-              <Nav className="me-auto"></Nav>
+              <Nav className="me-auto logout-button">
+                {isLoggedIn && (
+                  <button
+                    className="form-control btn-secondary"
+                    onClick={logoutHandler}
+                  >
+                    Logout
+                  </button>
+                )}
+              </Nav>
             </Container>
           </Navbar>
         </React.Fragment>,

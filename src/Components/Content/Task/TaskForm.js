@@ -40,7 +40,7 @@ const TaskForm = (props) => {
   return (
     <React.Fragment>
       <TopHeader>
-        <button class="form-control" onClick={handleShow}>
+        <button className="form-control" onClick={handleShow}>
           +Add New Task
         </button>
         <Offcanvas show={show} onHide={handleClose} placement="end">

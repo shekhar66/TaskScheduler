@@ -5,71 +5,78 @@ const initialState = {
   isLoading: false,
   notification: {},
   filteredTasks: { tasks: [], value: "" },
+  loggedIn: false,
 };
-const taskManager = (taskState = initialState, action) => {
+const taskManager = (prevState = initialState, action) => {
   if (action.type === "fetch") {
     return {
       tasks: action.tasks,
-      isLoading: taskState.isLoading,
-      notification: taskState.notification,
-      filteredTasks: taskState.filteredTasks,
+      isLoading: prevState.isLoading,
+      notification: prevState.notification,
+      filteredTasks: prevState.filteredTasks,
+      loggedIn: prevState.loggedIn,
     };
   }
   if (action.type === "add") {
     return {
-      tasks: [...taskState.tasks, action.task],
-      isLoading: taskState.isLoading,
-      notification: taskState.notification,
-      filteredTasks: taskState.filteredTasks,
+      tasks: [...prevState.tasks, action.task],
+      isLoading: prevState.isLoading,
+      notification: prevState.notification,
+      filteredTasks: prevState.filteredTasks,
+      loggedIn: prevState.loggedIn,
     };
   }
   if (action.type === "edit") {
     const updatedTasks = [];
-    for (let i = 0; i < taskState.tasks.length; i++) {
-      if (taskState.tasks[i].id === action.task.id) {
+    for (let i = 0; i < prevState.tasks.length; i++) {
+      if (prevState.tasks[i].id === action.task.id) {
         updatedTasks.push(action.task);
       } else {
-        updatedTasks.push(taskState.tasks[i]);
+        updatedTasks.push(prevState.tasks[i]);
       }
     }
     return {
       tasks: updatedTasks,
-      isLoading: taskState.isLoading,
-      notification: taskState.notification,
-      filteredTasks: taskState.filteredTasks,
+      isLoading: prevState.isLoading,
+      notification: prevState.notification,
+      filteredTasks: prevState.filteredTasks,
+      loggedIn: prevState.loggedIn,
     };
   }
   if (action.type === "delete") {
     return {
       tasks: [
-        ...taskState.tasks.filter((task) => {
+        ...prevState.tasks.filter((task) => {
           return task.id !== action.taskId;
         }),
       ],
-      isLoading: taskState.isLoading,
-      notification: taskState.notification,
-      filteredTasks: taskState.filteredTasks,
+      isLoading: prevState.isLoading,
+      notification: prevState.notification,
+      filteredTasks: prevState.filteredTasks,
+      loggedIn: prevState.loggedIn,
     };
   }
 
   if (action.type === "loading") {
     return {
-      tasks: taskState.tasks,
+      tasks: prevState.tasks,
       isLoading: action.loading,
-      notification: taskState.notification,
-      filteredTasks: taskState.filteredTasks,
+      notification: prevState.notification,
+      filteredTasks: prevState.filteredTasks,
+      loggedIn: prevState.loggedIn,
     };
   }
   if (action.type === "notification") {
     return {
-      tasks: taskState.tasks,
-      isLoading: taskState.isLoading,
+      tasks: prevState.tasks,
+      isLoading: prevState.isLoading,
       notification: action.notification,
-      filteredTasks: taskState.filteredTasks,
+      filteredTasks: prevState.filteredTasks,
+      loggedIn: prevState.loggedIn,
     };
   }
   if (action.type === "filter") {
-    let updatedTasks = taskState.tasks;
+    let updatedTasks = prevState.tasks;
     if (action.filterpayload.filtervalue) {
       updatedTasks = updatedTasks.filter((task) => {
         return task.title
@@ -78,16 +85,28 @@ const taskManager = (taskState = initialState, action) => {
       });
     }
     return {
-      tasks: taskState.tasks,
-      isLoading: taskState.loading,
-      notification: taskState.notification,
+      tasks: prevState.tasks,
+      isLoading: prevState.loading,
+      notification: prevState.notification,
       filteredTasks: {
         tasks: updatedTasks,
         value: action.filterpayload.filtervalue,
+        loggedIn: prevState.loggedIn,
       },
     };
   }
-  return taskState;
+
+  if (action.type === "login") {
+    return {
+      tasks: prevState.tasks,
+      isLoading: prevState.loading,
+      notification: prevState.notification,
+      filteredTasks: prevState.filteredTasks,
+      loggedIn: action.value,
+    };
+  }
+
+  return prevState;
 };
 const store = createStore(taskManager);
 
