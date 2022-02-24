@@ -10,7 +10,7 @@ const NewTask = (props) => {
     isTitleValid: true,
     description: props.taskDetails ? props.taskDetails.description : "",
     isDescriptionValid: true,
-    dueDate: props.taskDetails ? props.taskDetails.dueDate : "",
+    duedate: props.taskDetails ? props.taskDetails.duedate : "",
     isDueDateValid: true,
     taskType: props.taskDetails ? props.taskDetails.type : "",
     isTypeValid: true,
@@ -57,7 +57,7 @@ const NewTask = (props) => {
     ValidateInput(event);
   };
   const dueDateChangeHandler = (event) => {
-    dispatchTaskData({ type: "dueDateInput", dueDate: event.target.value });
+    dispatchTaskData({ type: "dueDateInput", duedate: event.target.value });
     ValidateInput(event);
   };
 
@@ -71,13 +71,13 @@ const NewTask = (props) => {
     if (
       taskState.title &&
       taskState.description &&
-      taskState.dueDate &&
+      taskState.duedate &&
       taskState.taskType
     ) {
       const task = {
         title: taskState.title,
         description: taskState.description,
-        dueDate: taskState.dueDate,
+        duedate: taskState.duedate,
         type: taskState.taskType,
       };
       props.addTask(task);
@@ -86,7 +86,7 @@ const NewTask = (props) => {
         type: "description",
         description: "",
       });
-      dispatchTaskData({ type: "dueDateInput", dueDate: "" });
+      dispatchTaskData({ type: "dueDateInput", duedate: "" });
       dispatchTaskData({ type: "typeInput", taskType: "" });
     }
     if (!taskState.title) {
@@ -98,7 +98,7 @@ const NewTask = (props) => {
         isDescriptionValid: false,
       });
     }
-    if (!taskState.dueDate) {
+    if (!taskState.duedate) {
       dispatchTaskData({ type: "validateDueDate", isDuDateValid: false });
     }
     if (!taskState.taskType) {
@@ -161,7 +161,7 @@ const NewTask = (props) => {
                 !taskState.isDueDateValid ? "invalid" : ""
               }`}
               onChange={dueDateChangeHandler}
-              value={taskState.dueDate}
+              value={taskState.duedate}
             />
           </Col>
           <Col>

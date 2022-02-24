@@ -17,7 +17,7 @@ const TaskReducer = (state, action) => {
       };
       break;
     case "dueDateInput":
-      updatedState = { ...state, dueDate: action.dueDate };
+      updatedState = { ...state, duedate: action.duedate };
       break;
     case "validateDueDate":
       updatedState = { ...state, isDueDateValid: action.isDueDateValid };

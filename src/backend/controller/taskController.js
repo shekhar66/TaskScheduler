@@ -7,26 +7,25 @@ const getAllTasks = async (req, res) => {
 
 const addTask = async (req, res) => {
   try {
-    const properties = ["title", "description", "dueDate", "type"];
+    const properties = ["title", "description", "duedate", "type"];
     const exists = properties.every((property) =>
       JSON.stringify(req.body).includes(property)
     );
     if (!exists) {
       return res.status(400).send("Invalid Properties provided...!");
     }
-    let taskObject = req.body;
-    taskObject.duedate = taskObject.dueDate;
-    delete taskObject.dueDate;
 
-    const task = await new Task(taskObject).save();
+    const task = await new Task(req.body).save();
     res.status(201).send(task);
-  } catch (error) {}
+  } catch (error) {
+    res.status(400).send();
+  }
 };
 
 const updateTask = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
-    const properties = ["title", "description", "dueDate", "type"];
+    const properties = ["title", "description", "duedate", "type"];
     const exists = properties.every((property) =>
       JSON.stringify(req.body).includes(property)
     );
@@ -50,6 +49,7 @@ const deleteTask = async (req, res) => {
     if (!task) {
       res.status(404).send();
     }
+    res.status(200).send(task);
   } catch (error) {
     res.status(400).send("No Task Found");
   }

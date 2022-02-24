@@ -17,17 +17,17 @@ const TaskForm = (props) => {
   const onAddTaskHandler = async (task) => {
     dispatch({ type: "loading", loading: true });
     try {
-      const response = await fetch(
-        "https://shekhar-test-dcbe5-default-rtdb.firebaseio.com/tasks.json",
-        {
-          method: "POST",
-          body: JSON.stringify(task),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const resp = await response.json();
-      if (resp.name) {
-        dispatch({ type: "add", task: { ...task, id: resp.name } });
+      const response = await fetch("http://localhost:3002/tasks", {
+        method: "POST",
+        body: JSON.stringify(task),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.status === 201) {
+        await response.json();
+        dispatch({
+          type: "add",
+          task: { ...task, duedate: task.substring(0, 10) },
+        });
         dispatch({ type: "loading", loading: false });
         dispatch({
           type: "notification",
@@ -35,7 +35,14 @@ const TaskForm = (props) => {
         });
         setShow(false);
       }
-    } catch (err) {}
+    } catch (err) {
+      dispatch({ type: "loading", loading: false });
+      dispatch({
+        type: "red",
+        notification: { message: "Failed to add Task" },
+      });
+      setShow(false);
+    }
   };
   return (
     <React.Fragment>

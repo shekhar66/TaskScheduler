@@ -11,32 +11,29 @@ const Main = (props) => {
   });
 
   useEffect(() => {
-    dispatch({ type: "loading", loading: true });
     const request = async () => {
-      const response = await fetch(
-        "https://shekhar-test-dcbe5-default-rtdb.firebaseio.com/tasks.json",
-        {
+      try {
+        const response = await fetch("http://localhost:3002/tasks", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
-        }
-      );
-      const data = await response.json();
-
-      const loadedTasks = [];
-      for (const taskKey in data) {
-        loadedTasks.push({
-          id: taskKey,
-          title: data[taskKey].title,
-          description: data[taskKey].description,
-          dueDate: data[taskKey].dueDate,
-          type: data[taskKey].type,
         });
-      }
-      dispatch({ type: "fetch", tasks: loadedTasks });
-      dispatch({ type: "loading", loading: false });
+        const data = await response.json();
+
+        const loadedTasks = [];
+        for (const taskKey in data) {
+          loadedTasks.push({
+            id: data[taskKey]._id,
+            title: data[taskKey].title,
+            description: data[taskKey].description,
+            duedate: data[taskKey].duedate.substring(0, 10),
+            type: data[taskKey].type,
+          });
+        }
+        dispatch({ type: "fetch", tasks: loadedTasks });
+      } catch (error) {}
     };
     request();
-  }, [dispatch]);
+  }, [dispatch, isLoading]);
   const tasks = useSelector((prevTasks) => {
     return prevTasks.tasks;
   });

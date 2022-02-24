@@ -24,15 +24,10 @@ const TotalTasks = (props) => {
   const deleteTaskHandler = async (event) => {
     dispatch({ type: "loading", loading: true });
     try {
-      await fetch(
-        "https://shekhar-test-dcbe5-default-rtdb.firebaseio.com/tasks/" +
-          event.target.id +
-          ".json",
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      await fetch("http://localhost:3002/tasks/" + event.target.id, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
       dispatch({ type: "delete", taskId: event.target.id });
       dispatch({ type: "loading", loading: false });
       dispatch({
@@ -74,7 +69,7 @@ const TotalTasks = (props) => {
                     </tr>
                     <tr>
                       <th>Closure Date</th>
-                      <td>{task.dueDate}</td>
+                      <td>{task.duedate}</td>
                     </tr>
                   </tbody>
                 </Table>

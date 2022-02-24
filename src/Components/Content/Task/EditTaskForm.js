@@ -27,22 +27,35 @@ const EditTaskForm = (props) => {
   const editTaskHandler = async (data) => {
     setShow(false);
     dispatch({ type: "loading", loading: true });
-    const response = await fetch(
-      `https://shekhar-test-dcbe5-default-rtdb.firebaseio.com/tasks/${props.taskid}.json`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({ ...data, id: props.taskid }),
-        headers: { "Content-Type": "application/json" },
+    try {
+      const response = await fetch(
+        `http://localhost:3002/tasks/${props.taskid}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ ...data }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (response.ok) {
+        dispatch({ type: "edit", task: { ...data, id: props.taskid } });
+        dispatch({ type: "loading", loading: false });
+        dispatch({
+          type: "notification",
+          notification: {
+            message: "Task has been updated sucessfully..!!!",
+            color: "orange",
+          },
+        });
+      } else {
+        throw new Error();
       }
-    );
-    if (response.ok) {
-      dispatch({ type: "edit", task: { ...data, id: props.taskid } });
+    } catch (error) {
       dispatch({ type: "loading", loading: false });
       dispatch({
         type: "notification",
         notification: {
-          message: "Task has been updated sucessfully..!!!",
-          color: "orange",
+          message: "Failed to update task",
+          color: "red",
         },
       });
     }
