@@ -18,10 +18,9 @@ const addUser = async (req, res) => {
       throw new Error("Invalid properties...!!");
     }
     const user = new User(req.body);
+    const token = await user.generateAuthToken();
 
-    await user.save();
-
-    res.status(201).send(user);
+    res.status(201).send({ user, token });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -65,7 +64,8 @@ const userLogin = async (req, res) => {
       req.body.email,
       req.body.password
     );
-    res.status(200).send(user);
+    const token = await user.generateAuthToken();
+    res.status(200).send({ token });
   } catch (error) {
     res.status(400).send(error);
   }
